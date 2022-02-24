@@ -9,7 +9,8 @@ type MyCircularDeque struct {
 
 func Constructor(k int) MyCircularDeque {
 	var queue MyCircularDeque
-	queue.Queue = make([]int, k)
+	var s []int
+	queue.Queue = s
 	queue.N = k
 	return queue
 }
@@ -19,7 +20,7 @@ func (this *MyCircularDeque) InsertFront(value int) bool {
 		return false
 	}
 	if this.Head == 0 && this.Tail == 0 {
-		this.Queue[this.Head] = value
+		this.Queue = append(this.Queue, value)
 		this.Tail = 1
 		return true
 	}
@@ -38,7 +39,8 @@ func (this *MyCircularDeque) InsertLast(value int) bool {
 		return false
 	}
 	if this.Head == 0 && this.Tail == 0 {
-		this.Queue[this.Head] = value
+		this.Queue = append(this.Queue, value)
+
 		this.Tail = 1
 		return true
 	}
