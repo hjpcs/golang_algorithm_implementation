@@ -1,101 +1,77 @@
 package main
 
 type MyCircularDeque struct {
-	Queue []int
-	N     int
-	Head  int
-	Tail  int
+	queue []int
+	head  int
+	tail  int
 }
 
 func Constructor(k int) MyCircularDeque {
-	var queue MyCircularDeque
-	var s []int
-	queue.Queue = s
-	queue.N = k
-	return queue
+	return MyCircularDeque{
+		queue: make([]int, k+1),
+		head:  0,
+		tail:  0,
+	}
 }
 
 func (this *MyCircularDeque) InsertFront(value int) bool {
-	if this.N == len(this.Queue) {
+	if this.IsFull() {
 		return false
 	}
-	if this.Head == 0 && this.Tail == 0 {
-		this.Queue = append(this.Queue, value)
-		this.Tail = 1
-		return true
-	}
-	if this.Head > 0 {
-		this.Head -= 1
-		this.Queue[this.Head] = value
-	} else {
-		this.Head = this.N - 1
-		this.Queue[this.Head] = value
-	}
+	this.head = (this.head - 1 + len(this.queue)) % len(this.queue)
+	this.queue[this.head] = value
 	return true
 }
 
 func (this *MyCircularDeque) InsertLast(value int) bool {
-	if this.N == len(this.Queue) {
+	if this.IsFull() {
 		return false
 	}
-	if this.Head == 0 && this.Tail == 0 {
-		this.Queue = append(this.Queue, value)
-
-		this.Tail = 1
-		return true
-	}
-	this.Queue[this.Tail] = value
-	this.Tail = (this.Tail + 1) % this.N
+	this.queue[this.tail] = value
+	this.tail = (this.tail + 1) % len(this.queue)
 	return true
 }
 
 func (this *MyCircularDeque) DeleteFront() bool {
-	if len(this.Queue) == 0 {
+	if this.IsEmpty() {
 		return false
 	}
-	this.Head = (this.Head + 1) % this.N
+	this.head = (this.head + 1) % len(this.queue)
 	return true
 }
 
 func (this *MyCircularDeque) DeleteLast() bool {
-	if len(this.Queue) == 0 {
+	if this.IsEmpty() {
 		return false
 	}
-	if this.Tail > 0 {
-		this.Tail -= 1
-	} else {
-		this.Tail = this.N - 1
-	}
+	this.tail = (this.tail - 1 + len(this.queue)) % len(this.queue)
 	return true
 }
 
 func (this *MyCircularDeque) GetFront() int {
-	if len(this.Queue) == 0 {
+	if this.IsEmpty() {
 		return -1
 	}
-	return this.Queue[this.Head]
+	return this.queue[this.head]
 }
 
 func (this *MyCircularDeque) GetRear() int {
-	if len(this.Queue) == 0 {
+	if this.IsEmpty() {
 		return -1
 	}
-	if this.Tail > 0 {
-		return this.Queue[this.Tail-1]
-	} else {
-		return this.Queue[this.N-1]
-	}
+	n := (this.tail - 1 + len(this.queue)) % len(this.queue)
+	return this.queue[n]
 }
 
 func (this *MyCircularDeque) IsEmpty() bool {
-	if len(this.Queue) == 0 {
+	if this.head == this.tail {
 		return true
 	}
 	return false
 }
 
 func (this *MyCircularDeque) IsFull() bool {
-	if len(this.Queue) == this.N {
+	if (this.tail+1)%len(this.queue) == this.head {
 		return true
 	}
 	return false
