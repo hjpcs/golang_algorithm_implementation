@@ -1,28 +1,25 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func mySqrt(x int) int {
 	left, right := 0, x
-	mid := (left + right) >> 1
+	ans := -1
 	for left <= right {
+		mid := (left + right) >> 1
 		if mid*mid > x {
 			right = mid - 1
-			mid = (left + right) >> 1
-		} else if mid*mid < x {
-			left = mid + 1
-			mid = (left + right) >> 1
 		} else {
-			return mid
+			ans = mid
+			left = mid + 1
 		}
 	}
-	if mid*mid < x {
-		return mid
-	}
-	return mid - 1
+	return ans
 }
 
 func main() {
-	x := 8
+	x := 36
 	fmt.Println(mySqrt(x))
 }
