@@ -19,7 +19,7 @@ func mySqrt(x int) int {
 	if mid*mid < x {
 		return mid
 	}
-	return mid + 1
+	return mid - 1
 }
 
 func main() {
