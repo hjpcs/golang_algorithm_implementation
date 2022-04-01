@@ -1,4 +1,6 @@
-package length_of_lis
+package main
+
+import "fmt"
 
 func lengthOfLIS(nums []int) int {
 	dp := make([]int, len(nums))
@@ -12,6 +14,7 @@ func lengthOfLIS(nums []int) int {
 			}
 		}
 	}
+	fmt.Println(dp)
 	length := dp[0]
 	for _, v := range dp {
 		length = max(length, v)
@@ -24,4 +27,9 @@ func max(x, y int) int {
 		return x
 	}
 	return y
+}
+
+func main() {
+	nums := []int{10, 9, 2, 5, 3, 7, 101, 18}
+	fmt.Println(lengthOfLIS(nums))
 }
